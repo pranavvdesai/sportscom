@@ -7,15 +7,20 @@ create table if not exists public.evaluations (
   candidate_id integer not null,
   candidate_name text not null,
   decision text null check (decision is null or decision in ('in', 'maybe', 'out')),
+  section text not null default '',
   remarks text not null default '',
   characteristics text not null default '',
   created_at timestamptz not null default now()
 );
 
+-- If table already exists without section:
+alter table public.evaluations add column if not exists section text not null default '';
+
 alter table public.evaluations enable row level security;
 
 drop policy if exists "Allow read evaluations" on public.evaluations;
 drop policy if exists "Allow insert evaluations" on public.evaluations;
+drop policy if exists "Allow delete evaluations" on public.evaluations;
 
 create policy "Allow read evaluations"
   on public.evaluations for select
@@ -25,7 +30,6 @@ create policy "Allow insert evaluations"
   on public.evaluations for insert
   with check (true);
 
-drop policy if exists "Allow delete evaluations" on public.evaluations;
 create policy "Allow delete evaluations"
   on public.evaluations for delete
   using (true);

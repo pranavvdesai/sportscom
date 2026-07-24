@@ -23,6 +23,7 @@ export async function saveEvaluations(
     panel: PanelId
     candidate: Candidate
     decision: Decision | null
+    section: string
     remarks: string
     characteristics: string
   }[],
@@ -33,6 +34,7 @@ export async function saveEvaluations(
     candidate_id: input.candidate.id,
     candidate_name: input.candidate.name,
     decision: input.decision,
+    section: input.section.trim(),
     remarks: input.remarks.trim(),
     characteristics: input.characteristics.trim(),
   }))

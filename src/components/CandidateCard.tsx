@@ -3,6 +3,7 @@ import type { Candidate, Decision } from '../types'
 
 export type EvalDraft = {
   decision: Decision | null
+  section: string
   remarks: string
   characteristics: string
 }
@@ -164,6 +165,15 @@ export function CandidateCard({ candidate, value, onChange, onRemove, canDecide,
           Final In / Maybe / Out is set by <strong>{decisionLeadName}</strong> for this panel. You can still add remarks.
         </p>
       )}
+
+      <div className="field">
+        <label>Section</label>
+        <input
+          value={value.section}
+          onChange={(e) => onChange({ ...value, section: e.target.value })}
+          placeholder="e.g. A, B, C / which section they belong to"
+        />
+      </div>
 
       <div className="field">
         <label>

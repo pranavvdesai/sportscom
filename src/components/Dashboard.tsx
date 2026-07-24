@@ -19,6 +19,7 @@ const byId = new Map(candidates.map((c) => [c.id, c]))
 
 const emptyDraft = (): EvalDraft => ({
   decision: null,
+  section: '',
   remarks: '',
   characteristics: '',
 })
@@ -154,6 +155,7 @@ export function Dashboard({ session, onLogout }: Props) {
           panel: session.panel,
           candidate: c,
           decision: isDecisionLead ? (d.decision as Decision) : null,
+          section: d.section,
           remarks: d.remarks,
           characteristics: d.characteristics,
         }

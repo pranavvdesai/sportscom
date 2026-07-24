@@ -97,7 +97,8 @@ export function ResultsTab({ interviewerName }: Props) {
             (e) =>
               e.interviewer_name.toLowerCase().includes(q) ||
               e.remarks.toLowerCase().includes(q) ||
-              e.characteristics.toLowerCase().includes(q),
+              e.characteristics.toLowerCase().includes(q) ||
+              (e.section || '').toLowerCase().includes(q),
           ),
       )
     }
@@ -241,6 +242,7 @@ export function ResultsTab({ interviewerName }: Props) {
                       <strong>{e.interviewer_name}</strong>
                       <span className="meta-line">
                         {e.panel === 'free' ? 'Free panel' : `Panel ${e.panel}`}
+                        {e.section ? ` · Section ${e.section}` : ''}
                         {e.decision ? ` · ${LABELS[e.decision]}` : ' · Remarks only'}
                       </span>
                     </div>

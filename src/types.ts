@@ -52,6 +52,7 @@ export type Evaluation = {
   candidate_id: number
   candidate_name: string
   decision: Decision | null
+  section: string
   remarks: string
   characteristics: string
   created_at?: string
