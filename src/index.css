@@ -530,9 +530,30 @@ button {
   align-items: center;
 }
 
-.save-all-bar .btn-save {
-  width: 100%;
-  max-width: 320px;
+.save-all-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.save-all-bar .btn-save,
+.save-all-bar .btn-next-panel {
+  width: auto;
+  min-width: 180px;
+}
+
+.btn-next-panel {
+  background: transparent;
+  border: 1px solid rgba(125, 223, 100, 0.55);
+  color: var(--accent-2);
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-weight: 700;
+}
+
+.btn-next-panel:hover {
+  background: rgba(125, 223, 100, 0.12);
 }
 
 @media (min-width: 720px) {
@@ -590,6 +611,92 @@ button {
   overflow: auto;
   border-radius: var(--radius);
   border: 1px solid var(--border);
+}
+
+.results-groups {
+  display: grid;
+  gap: 18px;
+}
+
+.result-person {
+  padding: 22px 22px 18px;
+}
+
+.result-person-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.result-person-head h3 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 1.25rem;
+}
+
+.result-person-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.remark-list {
+  display: grid;
+  gap: 12px;
+}
+
+.remark-item {
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.remark-item-top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+
+.remark-text {
+  margin: 0;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(4, 12, 8, 0.72);
+  display: grid;
+  place-items: center;
+  padding: 20px;
+}
+
+.modal-card {
+  width: min(440px, 100%);
+  padding: 24px;
+}
+
+.modal-card h3 {
+  margin: 0;
+  font-family: var(--display);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 18px;
 }
 
 table {

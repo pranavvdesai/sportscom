@@ -25,5 +25,10 @@ create policy "Allow insert evaluations"
   on public.evaluations for insert
   with check (true);
 
+drop policy if exists "Allow delete evaluations" on public.evaluations;
+create policy "Allow delete evaluations"
+  on public.evaluations for delete
+  using (true);
+
 create index if not exists evaluations_candidate_id_idx on public.evaluations (candidate_id);
 create index if not exists evaluations_created_at_idx on public.evaluations (created_at desc);

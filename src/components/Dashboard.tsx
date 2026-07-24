@@ -29,6 +29,7 @@ export function Dashboard({ session, onLogout }: Props) {
   const [saving, setSaving] = useState(false)
   const [saveMsg, setSaveMsg] = useState<string | null>(null)
   const [saveError, setSaveError] = useState<string | null>(null)
+  const [readyForNext, setReadyForNext] = useState(false)
 
   const selected = useMemo(() => [slot1, slot2, slot3].filter(Boolean) as Candidate[], [slot1, slot2, slot3])
   const excluded = selected.map((c) => c.id)
@@ -42,10 +43,12 @@ export function Dashboard({ session, onLogout }: Props) {
 
   function setDraft(id: number, next: EvalDraft) {
     setDrafts((prev) => ({ ...prev, [id]: next }))
+    setReadyForNext(false)
   }
 
   function pickSlot(setter: (c: Candidate | null) => void, prev: Candidate | null) {
     return (c: Candidate | null) => {
+      setReadyForNext(false)
       if (prev && (!c || c.id !== prev.id)) {
         setDrafts((d) => {
           const copy = { ...d }
@@ -60,9 +63,22 @@ export function Dashboard({ session, onLogout }: Props) {
     }
   }
 
+  function startNextPanel() {
+    setSlot1(null)
+    setSlot2(null)
+    setSlot3(null)
+    setDrafts({})
+    setSaveMsg(null)
+    setSaveError(null)
+    setReadyForNext(false)
+    setTab('panel')
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   async function handleSaveAll() {
     setSaveMsg(null)
     setSaveError(null)
+    setReadyForNext(false)
 
     if (selected.length !== 3) {
       setSaveError('Add all 3 candidates before saving.')
@@ -100,8 +116,9 @@ export function Dashboard({ session, onLogout }: Props) {
       setSaveMsg(
         res.shared
           ? 'Saved for the whole team — visible in Results & Remarks.'
-          : 'Saved on this device only. Shared cloud table is not ready yet — run supabase/schema.sql so everyone can see remarks.',
+          : 'Saved on this device only. Shared cloud table is not ready yet.',
       )
+      setReadyForNext(true)
     } else {
       setSaveError(res.error || 'Could not save evaluations.')
     }
@@ -203,14 +220,21 @@ export function Dashboard({ session, onLogout }: Props) {
                       : `Saves your remarks for all 3. Final In / Maybe / Out is set by ${leadName}.`}
                   </p>
                 </div>
-                <button
-                  type="button"
-                  className="btn btn-save"
-                  onClick={() => void handleSaveAll()}
-                  disabled={saving || selected.length === 0}
-                >
-                  {saving ? 'Saving all…' : 'Save all evaluations'}
-                </button>
+                <div className="save-all-actions">
+                  <button
+                    type="button"
+                    className="btn btn-save"
+                    onClick={() => void handleSaveAll()}
+                    disabled={saving || selected.length === 0}
+                  >
+                    {saving ? 'Saving all…' : 'Save all evaluations'}
+                  </button>
+                  {readyForNext && (
+                    <button type="button" className="btn btn-next-panel" onClick={startNextPanel}>
+                      Choose next panel
+                    </button>
+                  )}
+                </div>
                 {saveMsg && <p className="status-msg">{saveMsg}</p>}
                 {saveError && <p className="status-msg error">{saveError}</p>}
               </div>
@@ -218,7 +242,7 @@ export function Dashboard({ session, onLogout }: Props) {
           )}
         </>
       ) : (
-        <ResultsTab />
+        <ResultsTab interviewerName={session.name} />
       )}
     </div>
   )

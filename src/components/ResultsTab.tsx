@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { Decision, Evaluation } from '../types'
-import { fetchEvaluations } from '../lib/evaluations'
+import { deleteCandidateEvaluations, fetchEvaluations } from '../lib/evaluations'
+import { canDeleteResults } from '../lib/panelAccess'
 
 const LABELS: Record<Decision, string> = {
   in: 'Definitely In',
@@ -8,12 +9,29 @@ const LABELS: Record<Decision, string> = {
   out: 'Out',
 }
 
-export function ResultsTab() {
+type CandidateGroup = {
+  candidateId: number
+  candidateName: string
+  finalDecision: Decision | null
+  panels: string[]
+  entries: Evaluation[]
+}
+
+type Props = {
+  interviewerName: string
+}
+
+export function ResultsTab({ interviewerName }: Props) {
   const [rows, setRows] = useState<Evaluation[]>([])
   const [shared, setShared] = useState(true)
   const [loading, setLoading] = useState(true)
   const [decisionFilter, setDecisionFilter] = useState<'all' | Decision | 'remarks'>('all')
   const [query, setQuery] = useState('')
+  const [pendingDelete, setPendingDelete] = useState<CandidateGroup | null>(null)
+  const [deleting, setDeleting] = useState(false)
+  const [deleteError, setDeleteError] = useState<string | null>(null)
+
+  const isAdmin = canDeleteResults(interviewerName)
 
   async function load() {
     setLoading(true)
@@ -27,34 +45,111 @@ export function ResultsTab() {
     void load()
   }, [])
 
-  const filtered = useMemo(() => {
+  const groups = useMemo(() => {
+    const map = new Map<number, CandidateGroup>()
+    for (const r of rows) {
+      const existing = map.get(r.candidate_id)
+      if (!existing) {
+        map.set(r.candidate_id, {
+          candidateId: r.candidate_id,
+          candidateName: r.candidate_name,
+          finalDecision: r.decision,
+          panels: [r.panel],
+          entries: [r],
+        })
+      } else {
+        existing.entries.push(r)
+        if (!existing.finalDecision && r.decision) existing.finalDecision = r.decision
+        // Prefer a real decision over null; if multiple, keep first decision found (lead usually)
+        if (r.decision && (!existing.finalDecision || existing.finalDecision !== r.decision)) {
+          // Keep the most recent decision-bearing row (rows already newest-first)
+          if (!existing.entries.find((e) => e !== r && e.decision)) {
+            existing.finalDecision = r.decision
+          } else if (r.decision) {
+            const firstWithDecision = existing.entries.find((e) => e.decision)
+            existing.finalDecision = firstWithDecision?.decision ?? r.decision
+          }
+        }
+        if (!existing.panels.includes(r.panel)) existing.panels.push(r.panel)
+        if (r.candidate_name) existing.candidateName = r.candidate_name
+      }
+    }
+
+    // Normalize final decision: first non-null decision in newest-first order
+    for (const g of map.values()) {
+      const withDecision = g.entries.find((e) => e.decision)
+      g.finalDecision = withDecision?.decision ?? null
+      g.entries.sort((a, b) => {
+        const ta = a.created_at ? Date.parse(a.created_at) : 0
+        const tb = b.created_at ? Date.parse(b.created_at) : 0
+        return tb - ta
+      })
+    }
+
+    let list = Array.from(map.values())
     const q = query.trim().toLowerCase()
-    return rows.filter((r) => {
-      if (decisionFilter === 'remarks' && r.decision !== null) return false
-      if (decisionFilter !== 'all' && decisionFilter !== 'remarks' && r.decision !== decisionFilter) return false
-      if (!q) return true
-      return (
-        r.candidate_name.toLowerCase().includes(q) ||
-        r.interviewer_name.toLowerCase().includes(q) ||
-        r.remarks.toLowerCase().includes(q) ||
-        r.characteristics.toLowerCase().includes(q)
+    if (q) {
+      list = list.filter(
+        (g) =>
+          g.candidateName.toLowerCase().includes(q) ||
+          String(g.candidateId).includes(q) ||
+          g.entries.some(
+            (e) =>
+              e.interviewer_name.toLowerCase().includes(q) ||
+              e.remarks.toLowerCase().includes(q) ||
+              e.characteristics.toLowerCase().includes(q),
+          ),
       )
-    })
-  }, [rows, decisionFilter, query])
+    }
+    if (decisionFilter === 'remarks') {
+      list = list.filter((g) => g.finalDecision === null)
+    } else if (decisionFilter !== 'all') {
+      list = list.filter((g) => g.finalDecision === decisionFilter)
+    }
+
+    list.sort((a, b) => a.candidateName.localeCompare(b.candidateName))
+    return list
+  }, [rows, query, decisionFilter])
 
   const counts = useMemo(() => {
+    const allGroups = new Map<number, Decision | null>()
+    for (const r of rows) {
+      const prev = allGroups.get(r.candidate_id)
+      if (prev === undefined) allGroups.set(r.candidate_id, r.decision)
+      else if (!prev && r.decision) allGroups.set(r.candidate_id, r.decision)
+    }
+    const decisions = Array.from(allGroups.values())
     return {
-      in: rows.filter((r) => r.decision === 'in').length,
-      maybe: rows.filter((r) => r.decision === 'maybe').length,
-      out: rows.filter((r) => r.decision === 'out').length,
+      in: decisions.filter((d) => d === 'in').length,
+      maybe: decisions.filter((d) => d === 'maybe').length,
+      out: decisions.filter((d) => d === 'out').length,
     }
   }, [rows])
+
+  async function confirmDelete() {
+    if (!pendingDelete) return
+    setDeleting(true)
+    setDeleteError(null)
+    const res = await deleteCandidateEvaluations(pendingDelete.candidateId)
+    setDeleting(false)
+    if (!res.ok) {
+      setDeleteError(res.error || 'Could not delete.')
+      return
+    }
+    if (res.error) {
+      setDeleteError(
+        'Cloud delete blocked — run the delete policy SQL in Supabase, then try again. Local copy cleared.',
+      )
+    }
+    setPendingDelete(null)
+    await load()
+  }
 
   return (
     <div>
       {!shared && (
         <p className="status-msg error" style={{ marginBottom: 14 }}>
-          Showing local results only on this device. Run `supabase/schema.sql` in Supabase so everyone sees every remark.
+          Showing local results only on this device.
         </p>
       )}
 
@@ -90,11 +185,11 @@ export function ResultsTab() {
           value={decisionFilter}
           onChange={(e) => setDecisionFilter(e.target.value as 'all' | Decision | 'remarks')}
         >
-          <option value="all">All entries</option>
+          <option value="all">All candidates</option>
           <option value="in">Definitely In</option>
           <option value="maybe">Maybe</option>
           <option value="out">Out</option>
-          <option value="remarks">Remarks only</option>
+          <option value="remarks">No final decision yet</option>
         </select>
         <button type="button" className="btn btn-ghost" onClick={() => void load()}>
           Refresh
@@ -103,43 +198,92 @@ export function ResultsTab() {
 
       {loading ? (
         <p className="empty">Loading results…</p>
-      ) : filtered.length === 0 ? (
+      ) : groups.length === 0 ? (
         <p className="empty">No evaluations yet. Evaluate candidates in the Panel tab.</p>
       ) : (
-        <div className="card results-table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Candidate</th>
-                <th>Interviewer</th>
-                <th>Panel</th>
-                <th>Decision</th>
-                <th>Remarks</th>
-                <th>Characteristics</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.map((r) => (
-                <tr key={r.id || `${r.candidate_id}-${r.interviewer_name}-${r.remarks.slice(0, 20)}`}>
-                  <td>
-                    <strong>{r.candidate_name}</strong>
-                    <div className="meta-line">#{r.candidate_id}</div>
-                  </td>
-                  <td>{r.interviewer_name}</td>
-                  <td>{r.panel === 'free' ? 'Free' : `Panel ${r.panel}`}</td>
-                  <td>
-                    {r.decision ? (
-                      <span className={`badge ${r.decision}`}>{LABELS[r.decision]}</span>
-                    ) : (
-                      <span className="meta-line">Remarks only</span>
-                    )}
-                  </td>
-                  <td>{r.remarks || '—'}</td>
-                  <td>{r.characteristics || '—'}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="results-groups">
+          {groups.map((g) => (
+            <article key={g.candidateId} className="card result-person">
+              <header className="result-person-head">
+                <div>
+                  <h3>{g.candidateName}</h3>
+                  <p className="meta-line">
+                    #{g.candidateId}
+                    {g.panels.length
+                      ? ` · ${g.panels.map((p) => (p === 'free' ? 'Free' : `Panel ${p}`)).join(', ')}`
+                      : ''}
+                    {` · ${g.entries.length} remark${g.entries.length === 1 ? '' : 's'}`}
+                  </p>
+                </div>
+                <div className="result-person-actions">
+                  {g.finalDecision ? (
+                    <span className={`badge ${g.finalDecision}`}>{LABELS[g.finalDecision]}</span>
+                  ) : (
+                    <span className="meta-line">No final decision</span>
+                  )}
+                  {isAdmin && (
+                    <button
+                      type="button"
+                      className="btn btn-remove"
+                      onClick={() => {
+                        setDeleteError(null)
+                        setPendingDelete(g)
+                      }}
+                    >
+                      Delete
+                    </button>
+                  )}
+                </div>
+              </header>
+
+              <div className="remark-list">
+                {g.entries.map((e) => (
+                  <div
+                    key={e.id || `${e.interviewer_name}-${e.remarks}-${e.created_at}`}
+                    className="remark-item"
+                  >
+                    <div className="remark-item-top">
+                      <strong>{e.interviewer_name}</strong>
+                      <span className="meta-line">
+                        {e.panel === 'free' ? 'Free panel' : `Panel ${e.panel}`}
+                        {e.decision ? ` · ${LABELS[e.decision]}` : ' · Remarks only'}
+                      </span>
+                    </div>
+                    <p className="remark-text">{e.remarks || '—'}</p>
+                    {e.characteristics ? (
+                      <p className="meta-line">Characteristics: {e.characteristics}</p>
+                    ) : null}
+                  </div>
+                ))}
+              </div>
+            </article>
+          ))}
+        </div>
+      )}
+
+      {pendingDelete && (
+        <div className="modal-backdrop" role="dialog" aria-modal="true">
+          <div className="card modal-card">
+            <h3>Delete {pendingDelete.candidateName}?</h3>
+            <p className="meta-line" style={{ marginTop: 8, lineHeight: 1.5 }}>
+              This removes every remark and decision for this candidate from Results & Remarks. This cannot be
+              undone.
+            </p>
+            {deleteError && <p className="status-msg error">{deleteError}</p>}
+            <div className="modal-actions">
+              <button
+                type="button"
+                className="btn btn-ghost"
+                disabled={deleting}
+                onClick={() => setPendingDelete(null)}
+              >
+                Cancel
+              </button>
+              <button type="button" className="btn btn-remove" disabled={deleting} onClick={() => void confirmDelete()}>
+                {deleting ? 'Deleting…' : 'OK, delete'}
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

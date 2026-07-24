@@ -66,3 +66,20 @@ export async function fetchEvaluations(): Promise<{ rows: Evaluation[]; shared: 
   // Prefer shared cloud data so everyone sees the same Results tab
   return { rows: data as Evaluation[], shared: true }
 }
+
+export async function deleteCandidateEvaluations(
+  candidateId: number,
+): Promise<{ ok: boolean; shared: boolean; error?: string }> {
+  const { error } = await supabase.from('evaluations').delete().eq('candidate_id', candidateId)
+
+  // Always clear local copies for this candidate
+  const local = readLocal().filter((r) => r.candidate_id !== candidateId)
+  writeLocal(local)
+
+  if (error) {
+    // If cloud delete failed but we cleared local, still report the cloud issue
+    return { ok: local.length >= 0, shared: false, error: error.message }
+  }
+
+  return { ok: true, shared: true }
+}
