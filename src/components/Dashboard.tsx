@@ -77,7 +77,7 @@ export function Dashboard({ session, onLogout }: Props) {
       c.candidateId != null ? byId.get(c.candidateId) ?? null : null,
     )
     while (resolved.length < 3) resolved.push(null)
-    const missing = found.candidates.filter((c, i) => !resolved[i]).map((c) => c.name)
+    const missing = found.candidates.filter((_, i) => !resolved[i]).map((c) => c.name)
     applyTrio([resolved[0], resolved[1], resolved[2]], found.id)
     if (missing.length) {
       setScheduleMsg(`Loaded with gaps — could not match: ${missing.join(', ')}. Use search to fill manually.`)
