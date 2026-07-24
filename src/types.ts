@@ -32,6 +32,14 @@ export type Candidate = {
   insight?: CandidateInsight
 }
 
+export type InterviewSlot = {
+  id: string
+  slot: string
+  room: string
+  label: string
+  candidates: { name: string; email: string; candidateId: number | null }[]
+}
+
 export type InterviewerSession = {
   name: string
   panel: PanelId

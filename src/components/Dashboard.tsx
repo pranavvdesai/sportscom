@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import candidatesData from '../data/candidates.json'
-import type { Candidate, Decision, InterviewerSession } from '../types'
+import slotsData from '../data/slots.json'
+import type { Candidate, Decision, InterviewerSession, InterviewSlot } from '../types'
 import { CandidateCard, type EvalDraft } from './CandidateCard'
 import { CandidateSlot } from './CandidateSlot'
 import { ResultsTab } from './ResultsTab'
@@ -13,6 +14,8 @@ type Props = {
 }
 
 const candidates = candidatesData as Candidate[]
+const scheduleSlots = slotsData as InterviewSlot[]
+const byId = new Map(candidates.map((c) => [c.id, c]))
 
 const emptyDraft = (): EvalDraft => ({
   decision: null,
@@ -30,12 +33,17 @@ export function Dashboard({ session, onLogout }: Props) {
   const [saveMsg, setSaveMsg] = useState<string | null>(null)
   const [saveError, setSaveError] = useState<string | null>(null)
   const [readyForNext, setReadyForNext] = useState(false)
+  const [activeSlotId, setActiveSlotId] = useState<string>('')
+  const [scheduleMsg, setScheduleMsg] = useState<string | null>(null)
 
   const selected = useMemo(() => [slot1, slot2, slot3].filter(Boolean) as Candidate[], [slot1, slot2, slot3])
   const excluded = selected.map((c) => c.id)
   const panelLabel = session.panel === 'free' ? 'Free Panel' : `Panel ${session.panel}`
   const isDecisionLead = canSetDecision(session.name, session.panel)
   const leadName = decisionLeadLabel(session.panel)
+
+  const activeSlotIndex = scheduleSlots.findIndex((s) => s.id === activeSlotId)
+  const hasNextScheduleSlot = activeSlotIndex >= 0 && activeSlotIndex < scheduleSlots.length - 1
 
   function draftFor(id: number): EvalDraft {
     return drafts[id] ?? emptyDraft()
@@ -46,9 +54,42 @@ export function Dashboard({ session, onLogout }: Props) {
     setReadyForNext(false)
   }
 
+  function applyTrio(trio: [Candidate | null, Candidate | null, Candidate | null], slotId: string) {
+    setSlot1(trio[0])
+    setSlot2(trio[1])
+    setSlot3(trio[2])
+    const nextDrafts: Record<number, EvalDraft> = {}
+    for (const c of trio) {
+      if (c) nextDrafts[c.id] = emptyDraft()
+    }
+    setDrafts(nextDrafts)
+    setActiveSlotId(slotId)
+    setSaveMsg(null)
+    setSaveError(null)
+    setReadyForNext(false)
+    setScheduleMsg(null)
+  }
+
+  function loadScheduleSlot(slotId: string) {
+    const found = scheduleSlots.find((s) => s.id === slotId)
+    if (!found) return
+    const resolved: (Candidate | null)[] = found.candidates.map((c) =>
+      c.candidateId != null ? byId.get(c.candidateId) ?? null : null,
+    )
+    while (resolved.length < 3) resolved.push(null)
+    const missing = found.candidates.filter((c, i) => !resolved[i]).map((c) => c.name)
+    applyTrio([resolved[0], resolved[1], resolved[2]], found.id)
+    if (missing.length) {
+      setScheduleMsg(`Loaded with gaps — could not match: ${missing.join(', ')}. Use search to fill manually.`)
+    } else {
+      setScheduleMsg(`Loaded ${found.label}: ${found.candidates.map((c) => c.name).join(', ')}`)
+    }
+  }
+
   function pickSlot(setter: (c: Candidate | null) => void, prev: Candidate | null) {
     return (c: Candidate | null) => {
       setReadyForNext(false)
+      setScheduleMsg(null)
       if (prev && (!c || c.id !== prev.id)) {
         setDrafts((d) => {
           const copy = { ...d }
@@ -64,12 +105,20 @@ export function Dashboard({ session, onLogout }: Props) {
   }
 
   function startNextPanel() {
+    if (hasNextScheduleSlot) {
+      loadScheduleSlot(scheduleSlots[activeSlotIndex + 1].id)
+      setTab('panel')
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      return
+    }
     setSlot1(null)
     setSlot2(null)
     setSlot3(null)
     setDrafts({})
+    setActiveSlotId('')
     setSaveMsg(null)
     setSaveError(null)
+    setScheduleMsg(null)
     setReadyForNext(false)
     setTab('panel')
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -164,7 +213,37 @@ export function Dashboard({ session, onLogout }: Props) {
 
       {tab === 'panel' ? (
         <>
-          <h2 className="section-title">Add 3 candidates to this panel</h2>
+          <div className="card schedule-bar">
+            <div>
+              <strong>Auto-load from slotting sheet</strong>
+              <p className="meta-line">FF34 schedule · pick a time slot to fill all 3 candidates instantly</p>
+            </div>
+            <div className="schedule-controls">
+              <select
+                value={activeSlotId}
+                onChange={(e) => {
+                  const id = e.target.value
+                  if (id) loadScheduleSlot(id)
+                  else setActiveSlotId('')
+                }}
+              >
+                <option value="">Select time slot…</option>
+                {scheduleSlots.map((s) => (
+                  <option key={s.id} value={s.id}>
+                    {s.slot} · {s.candidates.map((c) => c.name.split(' ')[0]).join(', ')}
+                  </option>
+                ))}
+              </select>
+              {activeSlotId && (
+                <button type="button" className="btn btn-ghost" onClick={() => loadScheduleSlot(activeSlotId)}>
+                  Reload slot
+                </button>
+              )}
+            </div>
+            {scheduleMsg && <p className="status-msg">{scheduleMsg}</p>}
+          </div>
+
+          <h2 className="section-title">Or search & add manually</h2>
           <div className="slots">
             <CandidateSlot
               label="1st candidate"
@@ -190,7 +269,7 @@ export function Dashboard({ session, onLogout }: Props) {
           </div>
 
           {selected.length === 0 ? (
-            <p className="empty">Search and add candidates above to start evaluating.</p>
+            <p className="empty">Pick a time slot above, or search and add candidates manually.</p>
           ) : (
             <>
               <div className="candidate-grid">
@@ -231,7 +310,7 @@ export function Dashboard({ session, onLogout }: Props) {
                   </button>
                   {readyForNext && (
                     <button type="button" className="btn btn-next-panel" onClick={startNextPanel}>
-                      Choose next panel
+                      {hasNextScheduleSlot ? 'Load next time slot' : 'Choose next panel'}
                     </button>
                   )}
                 </div>
