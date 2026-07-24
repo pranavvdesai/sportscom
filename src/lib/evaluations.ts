@@ -69,17 +69,47 @@ export async function fetchEvaluations(): Promise<{ rows: Evaluation[]; shared: 
 
 export async function deleteCandidateEvaluations(
   candidateId: number,
-): Promise<{ ok: boolean; shared: boolean; error?: string }> {
-  const { error } = await supabase.from('evaluations').delete().eq('candidate_id', candidateId)
+): Promise<{ ok: boolean; shared: boolean; error?: string; deletedCount?: number }> {
+  // Confirm rows exist first
+  const { data: existing, error: readError } = await supabase
+    .from('evaluations')
+    .select('id')
+    .eq('candidate_id', candidateId)
 
-  // Always clear local copies for this candidate
+  if (readError) {
+    return { ok: false, shared: false, error: readError.message }
+  }
+
+  const before = existing?.length ?? 0
+  if (before === 0) {
+    const local = readLocal().filter((r) => r.candidate_id !== candidateId)
+    writeLocal(local)
+    return { ok: true, shared: true, deletedCount: 0 }
+  }
+
+  const { data: deleted, error } = await supabase
+    .from('evaluations')
+    .delete()
+    .eq('candidate_id', candidateId)
+    .select('id')
+
   const local = readLocal().filter((r) => r.candidate_id !== candidateId)
   writeLocal(local)
 
   if (error) {
-    // If cloud delete failed but we cleared local, still report the cloud issue
-    return { ok: local.length >= 0, shared: false, error: error.message }
+    return { ok: false, shared: false, error: error.message }
   }
 
-  return { ok: true, shared: true }
+  const deletedCount = deleted?.length ?? 0
+  if (deletedCount === 0) {
+    return {
+      ok: false,
+      shared: false,
+      deletedCount: 0,
+      error:
+        'Delete blocked by database permissions. Run supabase/fix-delete.sql in the Supabase SQL editor, then try again.',
+    }
+  }
+
+  return { ok: true, shared: true, deletedCount }
 }

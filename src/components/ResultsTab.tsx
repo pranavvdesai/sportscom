@@ -136,11 +136,6 @@ export function ResultsTab({ interviewerName }: Props) {
       setDeleteError(res.error || 'Could not delete.')
       return
     }
-    if (res.error) {
-      setDeleteError(
-        'Cloud delete blocked — run the delete policy SQL in Supabase, then try again. Local copy cleared.',
-      )
-    }
     setPendingDelete(null)
     await load()
   }
