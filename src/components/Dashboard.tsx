@@ -14,7 +14,6 @@ type Props = {
 }
 
 const candidates = candidatesData as Candidate[]
-const scheduleSlots = slotsData as InterviewSlot[]
 const byId = new Map(candidates.map((c) => [c.id, c]))
 
 const emptyDraft = (): EvalDraft => ({
@@ -36,6 +35,12 @@ export function Dashboard({ session, onLogout }: Props) {
   const [readyForNext, setReadyForNext] = useState(false)
   const [activeSlotId, setActiveSlotId] = useState<string>('')
   const [scheduleMsg, setScheduleMsg] = useState<string | null>(null)
+
+  const scheduleSlots = useMemo(() => {
+    const all = slotsData as InterviewSlot[]
+    if (session.panel === 'free') return all
+    return all.filter((s) => s.panel === session.panel)
+  }, [session.panel])
 
   const selected = useMemo(() => [slot1, slot2, slot3].filter(Boolean) as Candidate[], [slot1, slot2, slot3])
   const excluded = selected.map((c) => c.id)
@@ -72,19 +77,21 @@ export function Dashboard({ session, onLogout }: Props) {
   }
 
   function loadScheduleSlot(slotId: string) {
-    const found = scheduleSlots.find((s) => s.id === slotId)
+    const found = scheduleSlots.find((s) => s.id === slotId) || (slotsData as InterviewSlot[]).find((s) => s.id === slotId)
     if (!found) return
-    const resolved: (Candidate | null)[] = found.candidates.map((c) =>
+    const trioSource = found.candidates.slice(0, 3)
+    const extras = found.candidates.slice(3)
+    const resolved: (Candidate | null)[] = trioSource.map((c) =>
       c.candidateId != null ? byId.get(c.candidateId) ?? null : null,
     )
     while (resolved.length < 3) resolved.push(null)
-    const missing = found.candidates.filter((_, i) => !resolved[i]).map((c) => c.name)
+    const missing = trioSource.filter((_, i) => !resolved[i]).map((c) => c.name)
     applyTrio([resolved[0], resolved[1], resolved[2]], found.id)
-    if (missing.length) {
-      setScheduleMsg(`Loaded with gaps — could not match: ${missing.join(', ')}. Use search to fill manually.`)
-    } else {
-      setScheduleMsg(`Loaded ${found.label}: ${found.candidates.map((c) => c.name).join(', ')}`)
-    }
+    const bits: string[] = []
+    bits.push(`Loaded ${found.label}: ${trioSource.map((c) => c.name).join(', ')}`)
+    if (extras.length) bits.push(`Note: also slotted ${extras.map((c) => c.name).join(', ')} — add manually if needed`)
+    if (missing.length) bits.push(`Could not match: ${missing.join(', ')}`)
+    setScheduleMsg(bits.join(' · '))
   }
 
   function pickSlot(setter: (c: Candidate | null) => void, prev: Candidate | null) {
@@ -216,8 +223,12 @@ export function Dashboard({ session, onLogout }: Props) {
         <>
           <div className="card schedule-bar">
             <div>
-              <strong>Auto-load from slotting sheet</strong>
-              <p className="meta-line">FF34 schedule · pick a time slot to fill all 3 candidates instantly</p>
+              <strong>Auto-load from today’s slots</strong>
+              <p className="meta-line">
+                {session.panel === 'free'
+                  ? 'Free Panel — showing all Panel 1 & 2 slots (F3 / F4)'
+                  : `Panel ${session.panel} slots only · Room ${session.panel === '1' ? 'F3 (+ late F4)' : 'F4'}`}
+              </p>
             </div>
             <div className="schedule-controls">
               <select
@@ -231,7 +242,7 @@ export function Dashboard({ session, onLogout }: Props) {
                 <option value="">Select time slot…</option>
                 {scheduleSlots.map((s) => (
                   <option key={s.id} value={s.id}>
-                    {s.slot} · {s.candidates.map((c) => c.name.split(' ')[0]).join(', ')}
+                    {s.slot} · {s.room} · {s.candidates.map((c) => c.name.split(' ')[0]).join(', ')}
                   </option>
                 ))}
               </select>
@@ -241,6 +252,9 @@ export function Dashboard({ session, onLogout }: Props) {
                 </button>
               )}
             </div>
+            {scheduleSlots.length === 0 && (
+              <p className="meta-line">No slotted groups for this panel yet — use manual search.</p>
+            )}
             {scheduleMsg && <p className="status-msg">{scheduleMsg}</p>}
           </div>
 

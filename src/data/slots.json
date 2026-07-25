@@ -1,277 +1,510 @@
 [
   {
-    "id": "FF34-10:00_PM_to_10:20_PM",
+    "id": "P1-F3-07:00_PM_to_07:20_PM",
+    "slot": "07:00 PM to 07:20 PM",
+    "room": "F3",
+    "panel": "1",
+    "label": "07:00 PM to 07:20 PM · F3 · Panel 1",
+    "candidates": [
+      {
+        "name": "Revanth Shashank Nagisetty",
+        "email": "revanth.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 69
+      },
+      {
+        "name": "Sayam Bector",
+        "email": "sayam.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 152
+      },
+      {
+        "name": "Arpit Rai",
+        "email": "arpit.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 71
+      }
+    ]
+  },
+  {
+    "id": "P1-F3-07:20_PM_to_07:40_PM",
+    "slot": "07:20 PM to 07:40 PM",
+    "room": "F3",
+    "panel": "1",
+    "label": "07:20 PM to 07:40 PM · F3 · Panel 1",
+    "candidates": [
+      {
+        "name": "Mayank Chaudhary",
+        "email": "mayank.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 177
+      },
+      {
+        "name": "Ananya Vichare",
+        "email": "ananya1.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 72
+      },
+      {
+        "name": "Atharva Shrikant Zambre",
+        "email": "atharva.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 181
+      }
+    ]
+  },
+  {
+    "id": "P1-F3-07:40_PM_to_08:00_PM",
+    "slot": "07:40 PM to 08:00 PM",
+    "room": "F3",
+    "panel": "1",
+    "label": "07:40 PM to 08:00 PM · F3 · Panel 1",
+    "candidates": [
+      {
+        "name": "Shriram P K",
+        "email": "shriram.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 170
+      },
+      {
+        "name": "Luv Rai",
+        "email": "luvrai.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 95
+      },
+      {
+        "name": "Koustuv Das",
+        "email": "koustuv.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 121
+      }
+    ]
+  },
+  {
+    "id": "P1-F3-08:00_PM_to_08:20_PM",
+    "slot": "08:00 PM to 08:20 PM",
+    "room": "F3",
+    "panel": "1",
+    "label": "08:00 PM to 08:20 PM · F3 · Panel 1",
+    "candidates": [
+      {
+        "name": "Jagrit Jain",
+        "email": "jagrit.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 176
+      },
+      {
+        "name": "Karthikeya Kaup",
+        "email": "karthikeya.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 158
+      },
+      {
+        "name": "ASHIS SHARMA",
+        "email": "ashis.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 104
+      }
+    ]
+  },
+  {
+    "id": "P1-F3-08:20_PM_to_08:40_PM",
+    "slot": "08:20 PM to 08:40 PM",
+    "room": "F3",
+    "panel": "1",
+    "label": "08:20 PM to 08:40 PM · F3 · Panel 1",
+    "candidates": [
+      {
+        "name": "Aman Dwivedi",
+        "email": "aman.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 175
+      },
+      {
+        "name": "Vaisanth P Nair",
+        "email": "vaisanth.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 167
+      },
+      {
+        "name": "Pranati Udawat",
+        "email": "pranati.tapmiblr2023@learner.manipal.edu",
+        "candidateId": 82
+      }
+    ]
+  },
+  {
+    "id": "P1-F3-10:00_PM_to_10:20_PM",
     "slot": "10:00 PM to 10:20 PM",
-    "room": "FF34",
-    "label": "10:00 PM to 10:20 PM · FF34",
+    "room": "F3",
+    "panel": "1",
+    "label": "10:00 PM to 10:20 PM · F3 · Panel 1",
     "candidates": [
       {
-        "name": "Prabodh Singh",
-        "email": "prabodh.tapmimpl2026@learner.manipal.edu",
-        "candidateId": 116
+        "name": "Gayathri Ravi Kumar",
+        "email": "gayathri.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 109
       },
       {
-        "name": "Pushkar Khurana",
-        "email": "pushkar.tapmimpl2026@learner.manipal.edu",
-        "candidateId": 105
+        "name": "Aswin Saji",
+        "email": "aswin.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 173
       },
       {
-        "name": "Mahi Palit",
-        "email": "mahi.tapmimpl2026@learner.manipal.edu",
-        "candidateId": 153
+        "name": "Sakshin M Kanchibail",
+        "email": "sakshin.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 133
       }
     ]
   },
   {
-    "id": "FF34-10:20_PM_to_10:40_PM",
+    "id": "P1-F3-10:20_PM_to_10:40_PM",
     "slot": "10:20 PM to 10:40 PM",
-    "room": "FF34",
-    "label": "10:20 PM to 10:40 PM · FF34",
+    "room": "F3",
+    "panel": "1",
+    "label": "10:20 PM to 10:40 PM · F3 · Panel 1",
     "candidates": [
       {
-        "name": "Sidhant Karki",
-        "email": "sidhant.tapmimpl2026@learner.manipal.edu",
-        "candidateId": 88
+        "name": "ANWESHA NIDHI",
+        "email": "anwesha.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 151
       },
       {
-        "name": "Anisha Jain",
-        "email": "anisha.tapmimpl2026@learner.manipal.edu",
-        "candidateId": 137
+        "name": "Jinesh Doshi",
+        "email": "jinesh.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 117
       },
       {
-        "name": "Debajyoti Ghosh",
-        "email": "debajyoti.tapmimpl2026@learner.manipal.edu",
-        "candidateId": 93
+        "name": "Sanika Rajesh Gaidhani",
+        "email": "sanika.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 134
       }
     ]
   },
   {
-    "id": "FF34-10:40_PM_to_11:00_PM",
+    "id": "P1-F3-10:40_PM_to_11:00_PM",
     "slot": "10:40 PM to 11:00 PM",
-    "room": "FF34",
-    "label": "10:40 PM to 11:00 PM · FF34",
+    "room": "F3",
+    "panel": "1",
+    "label": "10:40 PM to 11:00 PM · F3 · Panel 1",
     "candidates": [
       {
-        "name": "Abhishek Jalan",
-        "email": "abhishek1.tapmimpl2026@learner.manipal.edu",
-        "candidateId": 139
+        "name": "Riya Khuba",
+        "email": "riya.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 166
       },
       {
-        "name": "Ayush Anil Sonar",
-        "email": "ayush.tapmimpl2026@learner.manipal.edu",
-        "candidateId": 113
+        "name": "Ashwathi Paduvilan Chandroth",
+        "email": "ashwathi.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 172
       },
       {
-        "name": "Saptarshi Bhattacharjee",
-        "email": "saptarshi1.tapmimpl2023@learner.manipal.edu",
-        "candidateId": 70
+        "name": "JERRY PAUL ALEX",
+        "email": "jerry.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 114
       }
     ]
   },
   {
-    "id": "FF34-11:00_PM_to_11:20_PM",
+    "id": "P1-F3-11:00_PM_to_11:20_PM",
     "slot": "11:00 PM to 11:20 PM",
-    "room": "FF34",
-    "label": "11:00 PM to 11:20 PM · FF34",
+    "room": "F3",
+    "panel": "1",
+    "label": "11:00 PM to 11:20 PM · F3 · Panel 1",
     "candidates": [
       {
-        "name": "Piyush Keshav Jha",
-        "email": "piyush.tapmimpl2026@learner.manipal.edu",
-        "candidateId": 89
+        "name": "Hrid Bhowmik",
+        "email": "hrid.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 74
       },
       {
-        "name": "Aaditya Vijaykrishnan",
-        "email": "aaditya.tapmimpl2026@learner.manipal.edu",
-        "candidateId": 73
+        "name": "Hariprasad S",
+        "email": "hariprasad.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 84
       },
       {
-        "name": "Kushal Mishra",
-        "email": "kushal.tapmimpl2026@learner.manipal.edu",
-        "candidateId": 83
+        "name": "Saumya Singh",
+        "email": "saumya1.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 159
       }
     ]
   },
   {
-    "id": "FF34-11:20_PM_to_11:40_PM",
+    "id": "P1-F3-11:20_PM_to_11:40_PM",
     "slot": "11:20 PM to 11:40 PM",
-    "room": "FF34",
-    "label": "11:20 PM to 11:40 PM · FF34",
+    "room": "F3",
+    "panel": "1",
+    "label": "11:20 PM to 11:40 PM · F3 · Panel 1",
     "candidates": [
       {
-        "name": "Siddhi Kambli",
-        "email": "siddhi.tapmimpl2026@learner.manipal.edu",
-        "candidateId": 119
+        "name": "Udanthika Reddy",
+        "email": "udanthika.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 85
       },
       {
-        "name": "Bruno Colas",
-        "email": "bruno.tapmimpl2026@learner.manipal.edu",
-        "candidateId": 107
+        "name": "MOHAMED FAIDH M F",
+        "email": "mohamed.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 81
       },
       {
-        "name": "Yugam",
-        "email": "yugam.tapmimpl2026@learner.manipal.edu",
-        "candidateId": 179
+        "name": "Abel Vishnu M S",
+        "email": "abel.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 112
       }
     ]
   },
   {
-    "id": "FF34-11:40_PM_to_12:00_AM",
+    "id": "P1-F4-11:40_PM_to_12:00_AM",
     "slot": "11:40 PM to 12:00 AM",
-    "room": "FF34",
-    "label": "11:40 PM to 12:00 AM · FF34",
+    "room": "F4",
+    "panel": "1",
+    "label": "11:40 PM to 12:00 AM · F4 · Panel 1",
     "candidates": [
       {
-        "name": "AKSHAT SAXENA",
-        "email": "akshat.tapmimpl2026@learner.manipal.edu",
-        "candidateId": 77
+        "name": "Ritvik",
+        "email": "ritvik.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 115
       },
       {
-        "name": "Atrayee Chakraborty",
-        "email": "atrayee.tapmimpl2026@learner.manipal.edu",
-        "candidateId": 79
+        "name": "Dhruv Nair",
+        "email": "dhruv1.tapmimpl2023@learner.manipal.edu",
+        "candidateId": 180
       },
       {
-        "name": "Aniket Panda",
-        "email": "aniket1.tapmimpl2026@learner.manipal.edu",
-        "candidateId": 142
+        "name": "Chamala Saatwik Reddy",
+        "email": "chamala.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 86
       }
     ]
   },
   {
-    "id": "FF34-12:00_AM_to_12:20_AM",
-    "slot": "12:00 AM to 12:20 AM",
-    "room": "FF34",
-    "label": "12:00 AM to 12:20 AM · FF34",
+    "id": "P2-F4-07:00_PM_to_07:20_PM",
+    "slot": "07:00 PM to 07:20 PM",
+    "room": "F4",
+    "panel": "2",
+    "label": "07:00 PM to 07:20 PM · F4 · Panel 2",
     "candidates": [
       {
-        "name": "Rini Anna Kurian",
-        "email": "rini.tapmimpl2026@learner.manipal.edu",
-        "candidateId": 120
+        "name": "Rohit Manoj",
+        "email": "rohit.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 125
       },
       {
-        "name": "Kankshi Shah",
-        "email": "kankshi.tapmimpl2023@learner.manipal.edu",
-        "candidateId": 150
+        "name": "Neha sri Kamepalli",
+        "email": "neha1.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 138
       },
       {
-        "name": "SOUMYA GOSWAMI",
-        "email": "soumya.tapmimpl2026@learner.manipal.edu",
-        "candidateId": 87
+        "name": "Aastha Satakshi",
+        "email": "aastha.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 118
       }
     ]
   },
   {
-    "id": "FF34-12:20_AM_to_12:40_AM",
-    "slot": "12:20 AM to 12:40 AM",
-    "room": "FF34",
-    "label": "12:20 AM to 12:40 AM · FF34",
+    "id": "P2-F4-07:20_PM_to_07:40_PM",
+    "slot": "07:20 PM to 07:40 PM",
+    "room": "F4",
+    "panel": "2",
+    "label": "07:20 PM to 07:40 PM · F4 · Panel 2",
     "candidates": [
       {
-        "name": "Sameer Bansal",
-        "email": "sameer.tapmimpl2026@learner.manipal.edu",
-        "candidateId": 75
+        "name": "Shail Shah",
+        "email": "shail.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 141
       },
       {
-        "name": "Soumalya Roy",
-        "email": "soumalya.tapmimpl2026@learner.manipal.edu",
-        "candidateId": 100
+        "name": "KARTIK UPPAL",
+        "email": "kartik.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 156
       },
       {
-        "name": "Akshay Kumar R",
-        "email": "akshay.tapmimpl2026@learner.manipal.edu",
-        "candidateId": 145
+        "name": "Gaurav Rangari",
+        "email": "gaurav.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 149
       }
     ]
   },
   {
-    "id": "FF34-12:40_AM_to_01:00_AM",
-    "slot": "12:40 AM to 01:00 AM",
-    "room": "FF34",
-    "label": "12:40 AM to 01:00 AM · FF34",
+    "id": "P2-F4-07:40_PM_to_08:00_PM",
+    "slot": "07:40 PM to 08:00 PM",
+    "room": "F4",
+    "panel": "2",
+    "label": "07:40 PM to 08:00 PM · F4 · Panel 2",
     "candidates": [
       {
-        "name": "Patel Mann",
-        "email": "patel.tapmimpl2026@learner.manipal.edu",
-        "candidateId": 76
+        "name": "DEVANSHI SARAF",
+        "email": "devanshi.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 92
       },
       {
-        "name": "Joel T Thomas",
-        "email": "joel.tapmimpl2026@learner.manipal.edu",
-        "candidateId": 162
+        "name": "Ravi Kant Yadav",
+        "email": "ravi.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 163
       },
       {
-        "name": "Mehul Mathews Martin",
-        "email": "mehul.tapmimpl2026@learner.manipal.edu",
-        "candidateId": 106
+        "name": "SUMUKHA S HEGDE",
+        "email": "sumukha.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 169
       }
     ]
   },
   {
-    "id": "FF34-01:00_AM_to_01:20_AM",
-    "slot": "01:00 AM to 01:20 AM",
-    "room": "FF34",
-    "label": "01:00 AM to 01:20 AM · FF34",
+    "id": "P2-F4-08:00_PM_to_08:20_PM",
+    "slot": "08:00 PM to 08:20 PM",
+    "room": "F4",
+    "panel": "2",
+    "label": "08:00 PM to 08:20 PM · F4 · Panel 2",
     "candidates": [
       {
-        "name": "Ujjwal Beriwal",
-        "email": "ujjwal.tapmimpl2026@learner.manipal.edu",
-        "candidateId": 147
+        "name": "Nandini Goswami",
+        "email": "nandini2.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 78
       },
       {
-        "name": "Ankit Ashok patkar",
-        "email": "ankit.tapmimpl2026@learner.manipal.edu",
-        "candidateId": 126
+        "name": "Devanshi Adhikari",
+        "email": "devanshi1.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 111
       },
       {
-        "name": "KAILAS S KURUP",
-        "email": "kailas.tapmimpl2026@learner.manipal.edu",
-        "candidateId": 174
+        "name": "Akash Kumar Jha",
+        "email": "akash.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 127
       }
     ]
   },
   {
-    "id": "FF34-01:20_AM_to_01:40_AM",
-    "slot": "01:20 AM to 01:40 AM",
-    "room": "FF34",
-    "label": "01:20 AM to 01:40 AM · FF34",
+    "id": "P2-F4-08:20_PM_to_08:40_PM",
+    "slot": "08:20 PM to 08:40 PM",
+    "room": "F4",
+    "panel": "2",
+    "label": "08:20 PM to 08:40 PM · F4 · Panel 2",
     "candidates": [
       {
-        "name": "Sanya Gupta",
-        "email": "sanya1.tapmimpl2026@learner.manipal.edu",
-        "candidateId": 146
+        "name": "Ayushman Singh Tomar",
+        "email": "ayushman.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 161
       },
       {
-        "name": "INDRAJITH S",
-        "email": "indrajith.tapmimpl2026@learner.manipal.edu",
-        "candidateId": 143
+        "name": "Aditya Shrotri",
+        "email": "aditya1.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 97
       },
       {
-        "name": "B SHYAM SUNDAR",
-        "email": "bshyamsundar.tapmimpl2026@learner.manipal.edu",
-        "candidateId": 98
+        "name": "KABIR CHAUDHARY",
+        "email": "kabir.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 123
       }
     ]
   },
   {
-    "id": "FF34-01:40_AM_to_02:00_AM",
-    "slot": "01:40 AM to 02:00 AM",
-    "room": "FF34",
-    "label": "01:40 AM to 02:00 AM · FF34",
+    "id": "P2-F4-10:00_PM_to_10:20_PM",
+    "slot": "10:00 PM to 10:20 PM",
+    "room": "F4",
+    "panel": "2",
+    "label": "10:00 PM to 10:20 PM · F4 · Panel 2",
     "candidates": [
       {
-        "name": "Naveeth Sanjeev",
-        "email": "naveeth.tapmimpl2026@learner.manipal.edu",
-        "candidateId": 157
+        "name": "Rachit Agarwala",
+        "email": "rachit.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 110
       },
       {
-        "name": "Utkarsh jain",
-        "email": "utkarsh.tapmimpl2026@learner.manipal.edu",
-        "candidateId": 101
+        "name": "Alen Tresa",
+        "email": "alen.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 148
       },
       {
-        "name": "Aathish Kumar A",
-        "email": "aathish.tapmimpl2026@learner.manipal.edu",
-        "candidateId": 154
+        "name": "Yash Gulia",
+        "email": "yash4.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 103
+      }
+    ]
+  },
+  {
+    "id": "P2-F4-10:20_PM_to_10:40_PM",
+    "slot": "10:20 PM to 10:40 PM",
+    "room": "F4",
+    "panel": "2",
+    "label": "10:20 PM to 10:40 PM · F4 · Panel 2",
+    "candidates": [
+      {
+        "name": "Parva Shah",
+        "email": "parva.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 165
+      },
+      {
+        "name": "Ankita Saha",
+        "email": "ankita.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 130
+      },
+      {
+        "name": "Chaitanya singh",
+        "email": "chaitanya.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 132
+      }
+    ]
+  },
+  {
+    "id": "P2-F4-10:40_PM_to_11:00_PM",
+    "slot": "10:40 PM to 11:00 PM",
+    "room": "F4",
+    "panel": "2",
+    "label": "10:40 PM to 11:00 PM · F4 · Panel 2",
+    "candidates": [
+      {
+        "name": "K G Janahni",
+        "email": "kgjanahni.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 122
+      },
+      {
+        "name": "MAHEK JHUNJHUNWALA",
+        "email": "mahek.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 80
+      },
+      {
+        "name": "Ashray",
+        "email": "ashray.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 136
+      }
+    ]
+  },
+  {
+    "id": "P2-F4-11:00_PM_to_11:20_PM",
+    "slot": "11:00 PM to 11:20 PM",
+    "room": "F4",
+    "panel": "2",
+    "label": "11:00 PM to 11:20 PM · F4 · Panel 2",
+    "candidates": [
+      {
+        "name": "Tara Rachel Joseph",
+        "email": "tara.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 164
+      },
+      {
+        "name": "Sagar Ramchandani",
+        "email": "sagar.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 128
+      },
+      {
+        "name": "Manasvi Dholakia",
+        "email": "manasvi.tapmimpl2023@learner.manipal.edu",
+        "candidateId": 140
+      }
+    ]
+  },
+  {
+    "id": "P2-F4-11:20_PM_to_11:45_PM",
+    "slot": "11:20 PM to 11:45 PM",
+    "room": "F4",
+    "panel": "2",
+    "label": "11:20 PM to 11:45 PM · F4 · Panel 2",
+    "candidates": [
+      {
+        "name": "Nikhil Arora",
+        "email": "nikhil.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 91
+      },
+      {
+        "name": "Charchit Das",
+        "email": "charchit.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 96
+      },
+      {
+        "name": "Ansh Arora",
+        "email": "ansh2.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 171
+      },
+      {
+        "name": "Vishal Dey",
+        "email": "vishal.tapmimpl2026@learner.manipal.edu",
+        "candidateId": 124
       }
     ]
   }

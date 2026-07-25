@@ -48,6 +48,7 @@ export type InterviewSlot = {
   id: string
   slot: string
   room: string
+  panel?: PanelId
   label: string
   candidates: { name: string; email: string; candidateId: number | null }[]
 }
