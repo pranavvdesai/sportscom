@@ -3,8 +3,8 @@ import type { PanelId } from '../types'
 /** Who can set the final In / Maybe / Out for each panel. */
 export const PANEL_DECISION_LEADS: Record<PanelId, string | null> = {
   free: 'Hitesh',
-  '1': null, // tell me the name later
-  '2': null, // tell me the name later
+  '1': 'Chaitanya',
+  '2': 'Hitesh',
 }
 
 /** Who can delete candidates (and all related remarks) from Results. */
