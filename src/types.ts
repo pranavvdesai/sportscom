@@ -7,6 +7,15 @@ export type SportScore = {
   level: number
 }
 
+export type DesignSkills = {
+  canva: number | null
+  videoEditing: number | null
+  workInterests: string[]
+  whyContent: string
+  whyEvent: string
+  contributeBoth: string
+}
+
 export type CandidateInsight = {
   goodAt: string[]
   competitionLevels: string[]
@@ -15,6 +24,7 @@ export type CandidateInsight = {
   achievementsBullets: string[]
   sportsComBullets: string[]
   memoryBullets: string[]
+  designBullets?: string[]
   summary: string
 }
 
@@ -29,6 +39,8 @@ export type Candidate = {
   favoriteMemory: string
   topSports: SportScore[]
   allScores: Record<string, number>
+  design?: DesignSkills
+  wantsDesign?: boolean
   insight?: CandidateInsight
 }
 

@@ -101,6 +101,39 @@ export function CandidateCard({ candidate, value, onChange, onRemove, canDecide,
         )}
       </div>
 
+      {candidate.wantsDesign && (
+        <div className="block">
+          <h4>Content &amp; Design proficiency</h4>
+          <div className="tags">
+            {candidate.design?.canva != null ? (
+              <span className={`tag level-${Math.min(5, Math.max(1, candidate.design.canva))}`}>
+                Canva · {candidate.design.canva}
+              </span>
+            ) : null}
+            {candidate.design?.videoEditing != null ? (
+              <span className={`tag level-${Math.min(5, Math.max(1, candidate.design.videoEditing))}`}>
+                Video editing · {candidate.design.videoEditing}
+              </span>
+            ) : null}
+            {(candidate.design?.workInterests || []).map((w) => (
+              <span key={w} className="tag">
+                {w}
+              </span>
+            ))}
+          </div>
+          {!candidate.design?.canva &&
+            !candidate.design?.videoEditing &&
+            !(candidate.design?.workInterests || []).length && (
+              <p className="meta-line">Applied for design/content, but no proficiency scores on the form.</p>
+            )}
+          {(insight?.designBullets?.length || 0) > 0 && (
+            <div style={{ marginTop: 10 }}>
+              <Bullets items={insight!.designBullets || []} />
+            </div>
+          )}
+        </div>
+      )}
+
       <div className="block">
         <h4>Achievements (summary)</h4>
         <Bullets
@@ -144,6 +177,18 @@ export function CandidateCard({ candidate, value, onChange, onRemove, canDecide,
             <h4>Full — favorite memory</h4>
             <p>{candidate.favoriteMemory || '—'}</p>
           </div>
+          {candidate.design?.whyContent ? (
+            <div className="block">
+              <h4>Full — why Content &amp; Design</h4>
+              <p>{candidate.design.whyContent}</p>
+            </div>
+          ) : null}
+          {candidate.design?.contributeBoth ? (
+            <div className="block">
+              <h4>Full — contributing to both verticals</h4>
+              <p>{candidate.design.contributeBoth}</p>
+            </div>
+          ) : null}
         </div>
       )}
 
