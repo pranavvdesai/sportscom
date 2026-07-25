@@ -580,6 +580,20 @@ button {
   background: rgba(125, 223, 100, 0.12);
 }
 
+.btn-export {
+  background: linear-gradient(135deg, #c8f25a, #7ddf64);
+  color: #0b160f;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-weight: 700;
+}
+
+.btn-export:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 @media (min-width: 720px) {
   .save-all-bar {
     grid-template-columns: 1fr auto;

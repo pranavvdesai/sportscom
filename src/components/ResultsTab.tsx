@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
-import type { Decision, Evaluation } from '../types'
+import candidatesData from '../data/candidates.json'
+import type { Candidate, Decision, Evaluation } from '../types'
 import { deleteCandidateEvaluations, fetchEvaluations } from '../lib/evaluations'
+import { downloadResultsExcel } from '../lib/exportResults'
 import { canDeleteResults } from '../lib/panelAccess'
 
 const LABELS: Record<Decision, string> = {
@@ -21,6 +23,8 @@ type Props = {
   interviewerName: string
 }
 
+const candidates = candidatesData as Candidate[]
+
 export function ResultsTab({ interviewerName }: Props) {
   const [rows, setRows] = useState<Evaluation[]>([])
   const [shared, setShared] = useState(true)
@@ -30,6 +34,7 @@ export function ResultsTab({ interviewerName }: Props) {
   const [pendingDelete, setPendingDelete] = useState<CandidateGroup | null>(null)
   const [deleting, setDeleting] = useState(false)
   const [deleteError, setDeleteError] = useState<string | null>(null)
+  const [exporting, setExporting] = useState(false)
 
   const isAdmin = canDeleteResults(interviewerName)
 
@@ -189,6 +194,23 @@ export function ResultsTab({ interviewerName }: Props) {
         </select>
         <button type="button" className="btn btn-ghost" onClick={() => void load()}>
           Refresh
+        </button>
+        <button
+          type="button"
+          className="btn btn-export"
+          disabled={exporting || rows.length === 0}
+          onClick={() => {
+            void (async () => {
+              setExporting(true)
+              try {
+                await downloadResultsExcel(rows, candidates)
+              } finally {
+                setExporting(false)
+              }
+            })()
+          }}
+        >
+          {exporting ? 'Preparing Excel…' : 'Download Excel'}
         </button>
       </div>
 
