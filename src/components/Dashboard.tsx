@@ -138,7 +138,6 @@ export function Dashboard({ session, onLogout }: Props) {
     const missing: string[] = []
     for (const c of selected) {
       const d = draftFor(c.id)
-      if (!d.remarks.trim()) missing.push(`${c.name}: add remarks`)
       if (isDecisionLead && !d.decision) missing.push(`${c.name}: pick In / Maybe / Out`)
     }
     if (missing.length) {
@@ -297,8 +296,8 @@ export function Dashboard({ session, onLogout }: Props) {
                   <strong>Save panel evaluations</strong>
                   <p className="meta-line">
                     {isDecisionLead
-                      ? 'Saves final In / Maybe / Out + remarks for all 3 candidates.'
-                      : `Saves your remarks for all 3. Final In / Maybe / Out is set by ${leadName}.`}
+                      ? 'Saves In / Maybe / Out for all 3. Remarks are optional.'
+                      : `Remarks are optional. Final In / Maybe / Out is set by ${leadName}.`}
                   </p>
                 </div>
                 <div className="save-all-actions">
