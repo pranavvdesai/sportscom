@@ -258,7 +258,10 @@ export function Dashboard({ session, onLogout }: Props) {
             {scheduleMsg && <p className="status-msg">{scheduleMsg}</p>}
           </div>
 
-          <h2 className="section-title">Or search & add manually</h2>
+          <h2 className="section-title">Panel seats</h2>
+          <p className="meta-line" style={{ margin: '-4px 0 12px' }}>
+            Auto-load fills these. Tap <strong>Replace</strong> on any seat for a no-show or last-minute change.
+          </p>
           <div className="slots">
             <CandidateSlot
               label="1st candidate"

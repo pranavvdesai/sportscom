@@ -370,6 +370,26 @@ button {
   margin-top: 10px;
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;
+}
+
+.slot-hint {
+  margin-top: 10px;
+  font-size: 0.8rem;
+}
+
+.btn-replace {
+  background: rgba(125, 223, 100, 0.16);
+  border: 1px solid rgba(125, 223, 100, 0.45);
+  color: var(--accent-2);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.btn-replace:hover {
+  background: rgba(125, 223, 100, 0.28);
 }
 
 .btn-remove {
